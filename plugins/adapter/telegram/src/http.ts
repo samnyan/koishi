@@ -52,6 +52,13 @@ abstract class TelegramAdapter extends Adapter<BotConfig, AdapterConfig> {
           session.type = 'group-added'
         }
       }
+    } else {
+      // Get update type from field name.
+      const subtype = Object.keys(update).filter(v => v !== 'update_id')[0]
+      if (subtype) {
+        session.type = 'telegram'
+        session.subtype = subtype
+      }
     }
     logger.debug('receive %o', session)
     this.dispatch(new Session(bot, session))

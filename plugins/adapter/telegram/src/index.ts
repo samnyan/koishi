@@ -7,6 +7,17 @@ declare module 'koishi' {
   interface Session {
     telegram?: Telegram.Update & Telegram.Internal
   }
+
+  interface Events {
+    'telegram/inline-query'(session: Session): void
+    'telegram/chosen-inline-result'(session: Session): void
+    'telegram/callback-query'(session: Session): void
+    'telegram/shipping-query'(session: Session): void
+    'telegram/pre-checkout-query'(session: Session): void
+    'telegram/poll'(session: Session): void
+    'telegram/poll-answer'(session: Session): void
+    'telegram/chat-member'(session: Session): void
+  }
 }
 
 export * as Telegram from './types'
