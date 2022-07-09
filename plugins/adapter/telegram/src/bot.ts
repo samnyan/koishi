@@ -149,8 +149,12 @@ export class TelegramBot extends Bot<BotConfig> {
     segments.push(...parseText(msgText, message.entities || []))
 
     session.content = segment.join(segments)
-    session.userId = message.from.id.toString()
-    session.author = adaptUser(message.from)
+    if (message.chat.type !== 'channel') {
+      // https://core.telegram.org/bots/api#message
+      // Empty for channel message
+      session.userId = message.from.id.toString()
+      session.author = adaptUser(message.from)
+    }
     session.channelId = message.chat.id.toString()
     if (message.chat.type === 'private') {
       session.subtype = 'private'
