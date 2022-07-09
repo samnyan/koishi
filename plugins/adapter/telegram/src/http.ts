@@ -157,7 +157,7 @@ export class HttpPolling extends TelegramAdapter {
           await this.onUpdate(e, bot)
         }
       } catch (e: any) {
-
+        logger.warn('Polling request failed. Reconnecting...')
       }
 
       if (!this.isStopped) {
