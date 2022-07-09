@@ -147,20 +147,24 @@ export class HttpPolling extends TelegramAdapter {
     previousUpdates.forEach(e => this.offset[selfId] = Math.max(this.offset[selfId], e.update_id))
 
     const polling = async () => {
-      const updates = await bot.internal.getUpdates({
-        offset: this.offset[selfId] + 1,
-        timeout: bot.config.pollingTimeout,
-      })
-      for (const e of updates) {
-        this.offset[selfId] = Math.max(this.offset[selfId], e.update_id)
-        this.onUpdate(e, bot)
+      try {
+        const updates = await bot.internal.getUpdates({
+          offset: this.offset[selfId] + 1,
+          timeout: bot.config.pollingTimeout,
+        })
+        for (const e of updates) {
+          this.offset[selfId] = Math.max(this.offset[selfId], e.update_id)
+          await this.onUpdate(e, bot)
+        }
+      } catch (e: any) {
+
       }
 
       if (!this.isStopped) {
         setTimeout(polling, 0)
       }
     }
-    polling()
+    await polling()
     logger.debug('listening updates %c', 'telegram: ' + bot.selfId)
   }
 }
