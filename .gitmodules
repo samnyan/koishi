@@ -1,0 +1,6 @@
+[submodule "community"]
+	path = community
+	url = https://github.com/samnyan/chieri-ts.git
+[submodule "external/console"]
+	path = external/console
+	url = https://github.com/samnyan/console.git
